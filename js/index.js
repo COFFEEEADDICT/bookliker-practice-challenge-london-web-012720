@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
             list.append(bookLi)
 
              
- 
+          
             bookLi.addEventListener("click", (e) => {
                
                 const showPan = document.querySelector("#show-panel")
@@ -48,16 +48,16 @@ document.addEventListener("DOMContentLoaded", function() {
             
                  //arr of users for that book //unshift , add to the front
                 
-                
+                //clicks 
                     button.addEventListener("click", (event) => {
                         const allUser = book.users
                          
                         const finder = allUser.find(singleUser => singleUser.id == 1)
-                        if (finder == undefined) {
-                          allUser.unshift({ id: 1, username: "pouros" });
-                        } else {
-                          allUser.shift();
-                        }                          
+                            if (finder == undefined) {
+                            allUser.unshift({ id: 1, username: "pouros" });
+                            } else {
+                            allUser.shift();
+                            }                          
                             fetch(`http://localhost:3000/books/${book.id}`, {
                             method: "PATCH",
                             headers: {
@@ -65,8 +65,18 @@ document.addEventListener("DOMContentLoaded", function() {
                                 'accept': 'application/json'
                             },
                             body: JSON.stringify({ users: allUser})
-                             
+                            })
+                        .then(resp => resp.json())
+                        .then(book => {usersUl.innerHTML= "" 
+                            book.users.forEach((user) => {
+                                const userName = document.createElement("p")
+                                userName.innerText = user.username
+                                userName.style.fontWeight = "900"
+                                usersUl.append(userName)
+                            })
+                     
                         })
+                         
                     })
 
             })
